@@ -1,0 +1,33 @@
+// go run github.com/steebchen/prisma-client-go db push
+
+// use this config for sqlite local tests files
+datasource db {
+  provider = "sqlite"
+  url      = "file:./prisma/dev.db"
+}
+
+// use this config for MongoDB Clusters
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("MONGODB_PROD")
+// }
+
+generator db {
+  provider = "go run github.com/steebchen/prisma-client-go"
+}
+
+model Account {
+  // change this for mongodb or sqlite
+  // id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique
+  email     String   @unique
+  token     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  username  String   @unique
+  atempts   Int
+  handshake DateTime @default(now())
+  createdAt DateTime @default(now())
+}
